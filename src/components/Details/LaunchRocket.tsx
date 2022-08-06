@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GeneralContext } from "../../context/generalContext";
 
 import { Button, Card, Stack, Typography, Link, Box } from "@mui/material";
 
@@ -6,6 +7,10 @@ import { LaunchType } from "../../types/types";
 import AddFavorite from "../AddFavorite";
 
 const RocketDetails: React.FC<LaunchType> = ({ launch }) => {
+  const ctx = useContext(GeneralContext);
+
+  const isFavorite = ctx.favoriteLaunches.includes(+launch.id);
+
   return (
     <Card
       sx={{ background: "#323232", padding: "1rem", margin: "1rem 0" }}
@@ -50,7 +55,7 @@ const RocketDetails: React.FC<LaunchType> = ({ launch }) => {
               </Link>
             </Button>
           )}
-          <AddFavorite id={launch.id} />
+          <AddFavorite isActive={isFavorite} id={launch.id} />
         </Box>
       </Stack>
     </Card>

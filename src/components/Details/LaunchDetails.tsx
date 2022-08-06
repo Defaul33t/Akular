@@ -21,6 +21,9 @@ const LaunchDetails: React.FC<LaunchType> = ({ launch }) => {
     >
       <Stack spacing={1}>
         <Typography color="primary.contrastText" variant="caption">
+          ID: {launch?.id}
+        </Typography>
+        <Typography color="primary.contrastText" variant="caption">
           {new Date(launch?.launch_date_local).toLocaleDateString("en-gb")}
         </Typography>
         <Typography color="primary.light" variant="h5">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, CardContent, CardActions, Typography, Button, Grid } from "@mui/material";
 
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import { SpacexQuery } from "../queries/queries";
 import AddFavorite from "./AddFavorite";
 
 import { LaunchesType } from "../types/types";
+import { GeneralContext } from "../context/generalContext";
 
 const Launches: React.FC = () => {
   const [result, reexecuteQuery] = useQuery({
@@ -15,6 +16,8 @@ const Launches: React.FC = () => {
 
   const { data, fetching, error } = result;
 
+  const ctx = useContext(GeneralContext);
+
   if (fetching) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;
 
@@ -22,6 +25,8 @@ const Launches: React.FC = () => {
     <Grid container alignItems="stretch" spacing={2} sx={{ marginBottom: "5rem" }}>
       {data &&
         data.launchesPast.map((launch: LaunchesType) => {
+          const isFavorite = ctx.favoriteLaunches.includes(+launch.id);
+
           return (
             <Grid xs={12} md={6} item key={launch.id}>
               <Card style={{ minHeight: "100%" }} variant="outlined">
@@ -47,7 +52,7 @@ const Launches: React.FC = () => {
                   <Link to={`/details/${launch.id}`}>
                     <Button variant="contained">Details</Button>
                   </Link>
-                  <AddFavorite id={launch.id} />
+                  <AddFavorite isActive={isFavorite} id={launch.id} />
                 </CardActions>
               </Card>
             </Grid>
