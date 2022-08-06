@@ -10,9 +10,11 @@ const AddFavorite: React.FC<{ id: string; isActive: boolean }> = (props) => {
   const addFavoriteHandler = () => {
     const isAlreadyAdded = ctx.favoriteLaunches.some((launch) => launch === +props.id);
 
-    if (isAlreadyAdded) return;
-
-    ctx.addFavorite(+props.id);
+    if (isAlreadyAdded) {
+      ctx.removeFavorite(+props.id);
+    } else {
+      ctx.addFavorite(+props.id);
+    }
   };
 
   return (

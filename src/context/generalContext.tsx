@@ -3,17 +3,25 @@ import React, { useState } from "react";
 export const GeneralContext = React.createContext<{
   favoriteLaunches: number[];
   addFavorite: (id: number) => void;
+  removeFavorite: (id: number) => void;
 }>({
   favoriteLaunches: [],
   addFavorite: (id: number) => {},
+  removeFavorite: (id: number) => {},
 });
 
 const GeneralContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [launches, setLaunches] = useState<number[]>([]);
 
-  const favoriteHandler = (id: number) => {
+  const addFavoriteHandler = (id: number) => {
     setLaunches((prev) => {
       return [...prev, id];
+    });
+  };
+
+  const removeFavoriteHandler = (id: number) => {
+    setLaunches((prev) => {
+      return prev.filter((launch) => launch !== id);
     });
   };
 
@@ -21,7 +29,8 @@ const GeneralContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     <GeneralContext.Provider
       value={{
         favoriteLaunches: launches,
-        addFavorite: favoriteHandler,
+        addFavorite: addFavoriteHandler,
+        removeFavorite: removeFavoriteHandler,
       }}
     >
       {children}
